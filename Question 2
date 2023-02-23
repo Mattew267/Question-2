@@ -1,0 +1,25 @@
+import json
+import psycopg2  # Assuming we're using PostgreSQL
+
+# Connect to the database
+conn = psycopg2.connect("dbname=mydatabase user=myuser password=mypassword")
+
+# Execute the query
+cur = conn.cursor()
+cur.execute("SELECT name, age, gender FROM friends")
+rows = cur.fetchall()
+
+# Convert the result to JSON format
+result = []
+for row in rows:
+    friend = {
+        "name": row[0],
+        "age": row[1],
+        "gender": row[2]
+    }
+    result.append(friend)
+
+json_result = json.dumps(result)
+
+# Return the JSON result
+return json_result
